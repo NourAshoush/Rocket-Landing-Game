@@ -1,4 +1,5 @@
 images/*.psd
+__pycache__
 
 tempCodeRunnerFile.py
 
