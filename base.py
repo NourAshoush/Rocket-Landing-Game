@@ -4,7 +4,6 @@ from constants import (
     WIN_HEIGHT,
     WIN_WIDTH,
     GROUND_HEIGHT,
-    GROUND_FRICTION,
 )
 from random import randint
 

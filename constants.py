@@ -7,7 +7,7 @@ mixer.init()
 WIN_WIDTH = 1400
 WIN_HEIGHT = 800
 GROUND_HEIGHT = 50
-FPS = 30
+FPS = 60
 
 # Rendering Constants
 ROCKET_IMGS = [
@@ -21,7 +21,7 @@ TARGET_IMG = image.load(os.path.join("images", "target.png"))
 BACKGROUND_IMG = image.load(os.path.join("images", "background.png"))
 
 BOOSTER_SOUND = mixer.Sound(os.path.join("audio", "booster.mp3"))
-BOOSTER_SOUND.set_volume(0.1)
+BOOSTER_SOUND.set_volume(0.0)
 
 STAT_FONT = font.SysFont("arial", 30)
 FONT_COLOR = (0, 0, 0)
@@ -33,6 +33,8 @@ GRAVITY = 0.3
 THRUST = 0.9
 MAX_SPEED = 15
 GROUND_FRICTION = 0
+SPAWN_X = WIN_WIDTH // 2
+SPAWN_Y = 10
 
 ANGLE_OFFSET = {
     0: 0,
@@ -73,3 +75,20 @@ ANGLE_OFFSET = {
     175: 0,
     180: 0,
 }
+
+# NEAT Constants
+GEN_NUM = 0
+MAX_GENERATIONS = 3000
+TIME_LIMIT = 10
+
+STAYING_ALIVE_BONUS = -0.1
+NEARING_TARGET_BONUS = 0.5
+LANDED_BONUS = 20
+
+OUT_OF_SCREEN_PENALTY = -150
+TIME_WASTING_PENALTY = -500
+REMAIN_STILL_PENALTY = -700
+
+DISTANCE_CONST = 50
+ANGLE_CONST = 0.1
+VELOCITY_CONST = 30

@@ -48,7 +48,7 @@ def main():
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
     clock = pygame.time.Clock()
 
-    rocket = Rocket(WIN_WIDTH // 2, 1)
+    rocket = Rocket()
     ground = Ground()
     target = Target()
 
@@ -73,7 +73,10 @@ def main():
             rocket.disengagePower()
 
         rocket.move()
+        rocket.checkCollision()
         rocket.calculateDistance(target)
+        rocket.isLanded()
+        rocket.isOutOfScreen()       
 
         draw_window(win, rocket, ground, target)
         clock.tick(FPS)

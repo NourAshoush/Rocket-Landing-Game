@@ -11,19 +11,21 @@ from constants import (
     GROUND_FRICTION,
     BOOSTER_SOUND,
     ANGLE_OFFSET,
+    SPAWN_X,
+    SPAWN_Y,
 )
 from pygame.transform import rotate
 from math import cos, sin, radians, sqrt
 
 
 class Rocket:
-    def __init__(self, x, y):
+    def __init__(self):
         self.img_count = 0
         self.img = ROCKET_IMGS[0]
         self.power = False
 
-        self.x = x
-        self.y = y
+        self.x = SPAWN_X
+        self.y = SPAWN_Y
         self.angle = 0
         self.height = -(
             self.y
@@ -36,7 +38,7 @@ class Rocket:
         self.velocity_x = 0
         self.velocity_y = 0
         self.angular_velocity = 0
-        self.last_speed = 0
+        self.changedX = False
 
     def draw(self, win):
         if self.power:
@@ -74,13 +76,15 @@ class Rocket:
         self.x += self.velocity_x
         self.y += self.velocity_y
 
+        if self.velocity_x != 0:
+            self.changedX = True
+
         self.height = -(
             self.y
             + self.img.get_height()
             - (WIN_HEIGHT - GROUND_HEIGHT)
             + ANGLE_OFFSET[abs(self.angle)]
         )
-        self.checkCollision()
 
     def checkCollision(self):
         if self.height <= 0:
@@ -94,8 +98,24 @@ class Rocket:
             self.velocity_y = 0
             self.velocity_x *= GROUND_FRICTION
             self.angular_velocity = 0
+        # else:
+        #     self.last_speed = self.angular_velocity
+
+    def isLanded(self):
+        if self.height <= 0:
+            return True
         else:
-            self.last_speed = self.angular_velocity
+            return False
+
+    def isOutOfScreen(self):
+        if (
+            self.x < -self.img.get_height()
+            or self.x > WIN_WIDTH + self.img.get_height()
+            or self.height > WIN_HEIGHT - GROUND_HEIGHT
+        ):
+            return True
+        else:
+            return False
 
     def calculateDistance(self, target):
         self.distance = sqrt((self.x - target.center) ** 2 + (self.height) ** 2)
@@ -125,8 +145,8 @@ class Rocket:
         self.power = False
 
     def reset(self):
-        self.x = WIN_WIDTH // 2
-        self.y = 1
+        self.x = SPAWN_X
+        self.y = SPAWN_Y
         self.angle = 0
         self.height = -(
             self.y
@@ -139,7 +159,7 @@ class Rocket:
         self.velocity_x = 0
         self.velocity_y = 0
         self.angular_velocity = 0
-        self.last_speed = 0
+        # self.last_speed = 0
         self.power = False
         BOOSTER_SOUND.stop()
         self.img = ROCKET_IMGS[0]
