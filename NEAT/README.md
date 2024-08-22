@@ -90,11 +90,17 @@ Several network architectures were explored to achieve the best results:
 To better understand the performance of the NEAT algorithm over time, the following visualisations are included:
 
 1. **Performance Graphs:**
-   ![Performance Up to Generation 300](images/best-genome-300-GENs.png)
-   ![Performance Up to Generation 1000](images/best-genome-1000-GENs.png)
+- Performance Up to Generation 300
 
-2. **Final Neural Network Diagram:**
-   ![Final Neural Network Diagram](images/best-genome-NN.png)
+![Performance Up to Generation 300](images/best-genome-300-GENs.png)
+
+- Performance Up to Generation 1000
+
+![Performance Up to Generation 1000](images/best-genome-1000-GENs.png)
+
+3. **Final Neural Network Diagram:**
+
+![Final Neural Network Diagram](images/best-genome-NN.png)
 
 These visualisations provide insights into the training process, highlighting the peak performance period and the eventual decline in fitness.
 
