@@ -1,4 +1,4 @@
-from constants import (
+from components.constants import (
     ROCKET_IMGS,
     ROTATION_VEL,
     ANIMATION_TIME,
@@ -15,17 +15,17 @@ from constants import (
     SPAWN_Y,
 )
 from pygame.transform import rotate
-from math import cos, sin, radians, sqrt
+from math import cos, sin, radians, sqrt, atan2, degrees
 
 
 class Rocket:
-    def __init__(self):
+    def __init__(self, x, y):
         self.img_count = 0
         self.img = ROCKET_IMGS[0]
         self.power = False
 
-        self.x = SPAWN_X
-        self.y = SPAWN_Y
+        self.x = x
+        self.y = y
         self.angle = 0
         self.height = -(
             self.y
@@ -33,11 +33,13 @@ class Rocket:
             - (WIN_HEIGHT - GROUND_HEIGHT)
             - ANGLE_OFFSET[abs(self.angle)]
         )
-        self.distance = 0
 
         self.velocity_x = 0
         self.velocity_y = 0
         self.angular_velocity = 0
+        self.angle_displacement = 0
+        self.distance = 0
+        self.angle_to_target = 0
         self.changedX = False
 
     def draw(self, win):
@@ -72,11 +74,12 @@ class Rocket:
         self.velocity_x = max(min(self.velocity_x, MAX_SPEED), -MAX_SPEED)
         self.velocity_y = max(min(self.velocity_y, MAX_SPEED), -MAX_SPEED)
         self.angular_velocity = sqrt(self.velocity_x**2 + self.velocity_y**2)
+        self.angle_displacement += abs(self.angle)
 
         self.x += self.velocity_x
         self.y += self.velocity_y
 
-        if self.velocity_x != 0:
+        if not self.changedX and self.velocity_x != 0:
             self.changedX = True
 
         self.height = -(
@@ -98,8 +101,6 @@ class Rocket:
             self.velocity_y = 0
             self.velocity_x *= GROUND_FRICTION
             self.angular_velocity = 0
-        # else:
-        #     self.last_speed = self.angular_velocity
 
     def isLanded(self):
         if self.height <= 0:
@@ -117,8 +118,14 @@ class Rocket:
         else:
             return False
 
-    def calculateDistance(self, target):
+    def calculateDistanceAngle(self, target):
         self.distance = sqrt((self.x - target.center) ** 2 + (self.height) ** 2)
+        self.angle_to_target = round(degrees(atan2(self.height, target.center - self.x))) + 90
+
+        if self.angle_to_target > 180:
+            self.angle_to_target -= 360
+        elif self.angle_to_target < -180:
+            self.angle_to_target += 360
 
     def normaliseAngle(self):
         if self.angle > 180:
@@ -159,7 +166,6 @@ class Rocket:
         self.velocity_x = 0
         self.velocity_y = 0
         self.angular_velocity = 0
-        # self.last_speed = 0
         self.power = False
         BOOSTER_SOUND.stop()
         self.img = ROCKET_IMGS[0]

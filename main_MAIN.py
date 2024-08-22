@@ -1,7 +1,7 @@
 import pygame
-from constants import WIN_WIDTH, WIN_HEIGHT, STAT_FONT, FPS, FONT_COLOR, BACKGROUND_IMG
-from rocket import Rocket
-from base import Ground, Target
+from components.constants import WIN_WIDTH, WIN_HEIGHT, STAT_FONT, FPS, FONT_COLOR, BACKGROUND_IMG
+from components.rocket import Rocket
+from components.base import Ground, Target
 
 
 def draw_window(win, rocket, base, target):

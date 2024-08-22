@@ -1,11 +1,14 @@
 import os
 from pygame import image, font, mixer
+from random import randint
+from math import sqrt
 
 font.init()
 mixer.init()
 
 WIN_WIDTH = 1400
 WIN_HEIGHT = 800
+MAX_DISTANCE = sqrt(WIN_HEIGHT**2 + WIN_WIDTH**2)
 GROUND_HEIGHT = 50
 FPS = 60
 
@@ -19,18 +22,22 @@ ROCKET_IMGS = [
 GROUND_IMG = image.load(os.path.join("images", "ground.png"))
 TARGET_IMG = image.load(os.path.join("images", "target.png"))
 BACKGROUND_IMG = image.load(os.path.join("images", "background.png"))
+TOMBSTONE_IMG = image.load(os.path.join("images", "tombstone.png"))
 
 BOOSTER_SOUND = mixer.Sound(os.path.join("audio", "booster.mp3"))
 BOOSTER_SOUND.set_volume(0.0)
 
-STAT_FONT = font.SysFont("arial", 30)
+STAT_FONT = font.SysFont("mono", 30)
+DEATH_FONT = font.SysFont("arial", 7)
 FONT_COLOR = (0, 0, 0)
+
+TARGET_X = randint(0, WIN_WIDTH - TARGET_IMG.get_width())
 
 # Rocket Constants
 ROTATION_VEL = 5
 ANIMATION_TIME = 3
-GRAVITY = 0.3
-THRUST = 0.9
+GRAVITY = 0.1
+THRUST = 0.6
 MAX_SPEED = 15
 GROUND_FRICTION = 0
 SPAWN_X = WIN_WIDTH // 2
@@ -78,17 +85,18 @@ ANGLE_OFFSET = {
 
 # NEAT Constants
 GEN_NUM = 0
-MAX_GENERATIONS = 3000
-TIME_LIMIT = 10
+MAX_GENERATIONS = 1000
+SCENARIO_LENGTH = 1
+TIME_LIMIT = 20
+RANDOMISE = False
 
-STAYING_ALIVE_BONUS = -0.1
-NEARING_TARGET_BONUS = 0.5
-LANDED_BONUS = 20
+STAYING_ALIVE_CONST = 0.0
+NEARING_TARGET_BONUS = 1.0
 
-OUT_OF_SCREEN_PENALTY = -150
+OUT_OF_SCREEN_PENALTY = -250
 TIME_WASTING_PENALTY = -500
-REMAIN_STILL_PENALTY = -700
+REMAIN_STILL_PENALTY = -1_000
 
-DISTANCE_CONST = 50
-ANGLE_CONST = 0.1
-VELOCITY_CONST = 30
+DISTANCE_CONST = 0.5
+ANGLE_CONST = 2
+VELOCITY_CONST = 1

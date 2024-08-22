@@ -1,1 +1,1 @@
-# Rocket-Landing-Game-NEAT
+# Rocket-Landing-Game
